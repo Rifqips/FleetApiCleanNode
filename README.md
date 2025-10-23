@@ -112,12 +112,6 @@ FleetApiCleanNode aims to be a **starter boilerplate** for backend developers wh
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** — you are free to use and modify it for both personal and commercial projects.
-
----
-
 ### 💡 Tips
 - For development without Docker, you can start the API directly:
   ```bash
