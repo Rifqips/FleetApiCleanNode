@@ -1,0 +1,25 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS vehicles (
+  id SERIAL PRIMARY KEY,
+  plate_number VARCHAR(20) UNIQUE NOT NULL,
+  brand VARCHAR(50) NOT NULL,
+  model VARCHAR(50) NOT NULL,
+  year INT NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_vehicles_updated ON vehicles;
+CREATE TRIGGER trg_vehicles_updated
+BEFORE UPDATE ON vehicles
+FOR EACH ROW EXECUTE FUNCTION set_updated_at();
